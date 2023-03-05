@@ -1,0 +1,21 @@
+# FROM alpine:3.17
+# RUN apk update && apk add curl bash git openssl jq
+
+FROM python:3.10-slim
+
+#* Python Runtime *#
+#RUN apk add py3-pip
+
+## Install terrascan ##
+RUN pip3 install terrascan
+
+## Install terraform-compliance ##
+RUN pip install terraform-compliance
+
+## Install checkov ##
+RUN pip install checkov
+
+## Cleanup to reduce image size ##
+#RUN rm -vrf /var/cache/apk/* && rm -vrf /tmp/* && apk del py3-pip
+
+CMD ["/bin/bash"]
