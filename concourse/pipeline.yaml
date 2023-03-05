@@ -1,0 +1,66 @@
+resource_types:
+- name: slack-alert
+  source:
+    repository: arbourd/concourse-slack-alert-resource
+  type: docker-image
+
+resources:
+- name: image-tf-code-analyzers-python-image
+  source:
+    email: ((auth-harbor-production-rw.email))
+    password: ((auth-harbor-production-rw.password))
+    repository: ((auth-harbor-production-rw.prefix))((auth-harbor-production-rw.project))/tf-code-analyzers-python
+    tag: latest
+    username: ((auth-harbor-production-rw.username))
+    insecure_registries: ["harbor.wkng.net"]
+  type: docker-image
+- name: image-tf-code-analyzers-python-sources
+  source:
+    branch: main
+    skip_ssl_verification: true
+    uri: https://github.com/wellingtonking/docker-image-tf-code-analyzers-python.git
+  type: git
+
+- name: slack-notify
+  source:
+    url: ((auth-slack-wo.hook_url))
+  type: slack-alert
+
+jobs:
+- name: self-update-pipeline
+  serial: true
+  plan:
+  - get: image-tf-code-analyzers-python-sources
+    trigger: true
+  - set_pipeline: self
+    file: image-tf-code-analyzers-python-sources/concourse/pipeline.yaml
+
+- name: build-and-push
+  on_abort:
+    params:
+      alert_type: aborted
+    put: slack-notify
+  on_error:
+    params:
+      alert_type: errored
+    put: slack-notify
+  on_failure:
+    params:
+      alert_type: failed
+    put: slack-notify
+  on_success:
+    params:
+      alert_type: success
+    put: slack-notify
+  plan:
+  - get: image-tf-code-analyzers-python-sources
+    trigger: true
+  - params:
+      additional_tags: image-tf-code-analyzers-python-sources/docker/additional_tags
+      build: image-tf-code-analyzers-python-sources
+      build_args_file: image-tf-code-analyzers-python-sources/docker/metadata.json
+      dockerfile: image-tf-code-analyzers-python-sources/Dockerfile.alpine
+    put: image-tf-code-analyzers-python-image
+  public: true
+  serial: true
+
