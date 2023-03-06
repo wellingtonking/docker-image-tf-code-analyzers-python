@@ -1,7 +1,7 @@
 # FROM alpine:3.17
 # RUN apk update && apk add curl bash git openssl jq
 
-FROM python:3.10-slim
+FROM python:3-slim
 
 #* Python Runtime *#
 #RUN apk add py3-pip
