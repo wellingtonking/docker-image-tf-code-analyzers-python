@@ -28,7 +28,8 @@ watch:
 intercept:
 	fly -t $(TARGET) intercept -j $(PIPELINE)/$(JOB)
 
-
+abort:
+	fly -t $(TARGET) abort -j $(PIPELINE)/$(JOB)
 
 set-pipeline-instances:
 	fly -t $(TARGET) set-pipeline --pipeline $(PIPELINE) --config $(FILE) --non-interactive --instance-var branch=main
