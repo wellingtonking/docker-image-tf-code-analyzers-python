@@ -64,3 +64,73 @@ jobs:
   public: true
   serial: true
 
+- name: container-image-scan
+  on_abort:
+    params:
+      alert_type: aborted
+    put: slack-notify
+  on_error:
+    params:
+      alert_type: errored
+    put: slack-notify
+  on_failure:
+    do:
+    - params:
+        alert_type: failed
+      put: slack-notify
+  on_success:
+    params:
+      alert_type: success
+      text: Successfully compiled the code, built and pushed the container for _translator-broker_
+        version _((.:version))_.
+    put: slack-notify
+
+  plan:
+
+  - get: image-tf-code-analyzers-python-image
+    trigger: true
+    passed:
+    - build-and-push
+
+  - task: trivy-scan-image
+    params:
+      TRIVY_USERNAME: '((auth-harbor-production-rw.username))'
+      TRIVY_PASSWORD: '((auth-harbor-production-rw.password))'
+    config:
+      image_resource:
+        name: ""
+        source:
+          repository: wkng/trivy-utils
+          tag: v1.0.0
+        type: registry-image
+      platform: linux
+      run:
+        args:
+        - -exc
+        - |
+          set -euxo pipefail
+          BASEPATH=$(pwd)
+          export TRIVY_INSECURE="true"
+          export TRIVY_NON_SSL="false"
+          echo "[debug] TRIVY_USERNAME=${TRIVY_USERNAME}"
+          echo "Scanning: ((auth-harbor-production-rw.prefix))((auth-harbor-production-rw.project))/tf-code-analyzers-python:latest"
+          # Tag "latest" is temporary wip
+          trivy image ((auth-harbor-production-rw.prefix))((auth-harbor-production-rw.project))/tf-code-analyzers-python:latest
+        path: /bin/bash
+    
+  # - task: dockle-scan-image
+  #   config:
+  #     image_resource:
+  #       name: ""
+  #       source:
+  #         repository: wkng/dockle-utils
+  #       type: registry-image
+  #     inputs:
+  #     - name: version-tag
+  #     platform: linux
+  #     run:
+  #       args:
+  #       - ((auth-dockerhub-cdemers-rw.repository))/translator-broker:((.:version))
+  #       path: dockle-defaults.sh
+    
+  public: true
