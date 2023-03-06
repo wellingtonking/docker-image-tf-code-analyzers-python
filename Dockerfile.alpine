@@ -1,21 +1,24 @@
-# FROM alpine:3.17
-# RUN apk update && apk add curl bash git openssl jq
+FROM alpine:3.17
 
-FROM python:3-slim
+# This Dockerfile produces an image of abouty 1.11GB, even if we are starting
+# with an alpine:3 image.  This is way larger than the 449MB we get if we start
+# with a python:3-slim image.
+
+RUN apk update && apk add curl bash git openssl jq
 
 #* Python Runtime *#
-#RUN apk add py3-pip
+RUN apk add py3-pip
 
 ## Install terrascan ##
 RUN pip3 install terrascan
 
 ## Install terraform-compliance ##
-RUN pip install terraform-compliance
+RUN pip3 install terraform-compliance
 
 ## Install checkov ##
-RUN pip install checkov
+RUN pip3 install checkov
 
 ## Cleanup to reduce image size ##
-#RUN rm -vrf /var/cache/apk/* && rm -vrf /tmp/* && apk del py3-pip
+RUN rm -vrf /var/cache/apk/* && pip cache purge && apk del py3-pip
 
 CMD ["/bin/bash"]
