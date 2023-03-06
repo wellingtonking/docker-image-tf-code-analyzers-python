@@ -72,18 +72,14 @@ jobs:
   on_error:
     params:
       alert_type: errored
+      text: Errored the security scan the image _tf-code-analyzers-python_.
     put: slack-notify
   on_failure:
     do:
     - params:
         alert_type: failed
+        text: Failed the security scan of the image _tf-code-analyzers-python_.
       put: slack-notify
-  on_success:
-    params:
-      alert_type: success
-      text: Successfully compiled the code, built and pushed the container for _translator-broker_
-        version _((.:version))_.
-    put: slack-notify
 
   plan:
 
@@ -112,7 +108,6 @@ jobs:
           BASEPATH=$(pwd)
           export TRIVY_INSECURE="true"
           export TRIVY_NON_SSL="false"
-          echo "[debug] TRIVY_USERNAME=${TRIVY_USERNAME}"
           echo "Scanning: ((auth-harbor-production-rw.prefix))((auth-harbor-production-rw.project))/tf-code-analyzers-python:latest"
           # Tag "latest" is temporary wip
           trivy image ((auth-harbor-production-rw.prefix))((auth-harbor-production-rw.project))/tf-code-analyzers-python:latest
