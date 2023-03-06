@@ -59,7 +59,7 @@ jobs:
       additional_tags: image-tf-code-analyzers-python-sources/docker/additional_tags
       build: image-tf-code-analyzers-python-sources
       build_args_file: image-tf-code-analyzers-python-sources/docker/metadata.json
-      dockerfile: image-tf-code-analyzers-python-sources/Dockerfile
+      dockerfile: image-tf-code-analyzers-python-sources/Dockerfile.alpine
     put: image-tf-code-analyzers-python-image
   public: true
   serial: true

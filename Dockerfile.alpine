@@ -2,7 +2,8 @@ FROM alpine:3.17
 
 # This Dockerfile produces an image of abouty 1.11GB, even if we are starting
 # with an alpine:3 image.  This is way larger than the 449MB we get if we start
-# with a python:3-slim image.
+# with a python:3-slim image. However, the alpine image has much less 
+# vulnerabilities.
 
 RUN apk update && apk add curl bash git openssl jq
 
