@@ -20,6 +20,11 @@ resources:
     skip_ssl_verification: true
     uri: https://github.com/wellingtonking/docker-image-tf-code-analyzers-python.git
   type: git
+- name: alpine-3.17-image
+  source:
+    repository: registry.hub.docker.com/library/alpine
+    tag: "3.17"
+  type: docker-image
 
 - name: slack-notify
   source:
@@ -54,6 +59,8 @@ jobs:
     put: slack-notify
   plan:
   - get: image-tf-code-analyzers-python-sources
+    trigger: true
+  - get: alpine-3.17-image
     trigger: true
   - params:
       additional_tags: image-tf-code-analyzers-python-sources/docker/additional_tags
