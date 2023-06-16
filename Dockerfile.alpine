@@ -11,13 +11,13 @@ RUN apk update && apk add curl bash git openssl jq
 RUN apk add py3-pip
 
 ## Install terrascan ##
-RUN pip3 install terrascan
+RUN pip3 install terrascan --no-input --progress-bar off | grep -v "pip as the 'root' user"
 
 ## Install terraform-compliance ##
-RUN pip3 install terraform-compliance
+RUN pip3 install terraform-compliance --no-input --progress-bar off | grep -v "pip as the 'root' user"
 
 ## Install checkov ##
-RUN pip3 install checkov
+RUN pip3 install checkov --no-input --progress-bar off | grep -v "pip as the 'root' user"
 
 ## Cleanup to reduce image size ##
 RUN rm -vrf /var/cache/apk/* && pip cache purge && apk del py3-pip
