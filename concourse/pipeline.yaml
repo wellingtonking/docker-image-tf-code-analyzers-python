@@ -20,16 +20,16 @@ resources:
     skip_ssl_verification: true
     uri: https://github.com/wellingtonking/docker-image-tf-code-analyzers-python.git
   type: git
-- name: alpine-3.17-image
+- name: python-3-slim-image
   source:
-    repository: registry.hub.docker.com/library/alpine
-    tag: "3.17"
+    repository: registry.hub.docker.com/library/python
+    tag: "3-slim"
   type: docker-image
-
 - name: slack-notify
   source:
     url: ((auth-slack-wo.hook_url))
   type: slack-alert
+
 
 jobs:
 - name: self-update-pipeline
@@ -60,7 +60,7 @@ jobs:
   plan:
   - get: image-tf-code-analyzers-python-sources
     trigger: true
-  - get: alpine-3.17-image
+  - get: python-3-slim-image
     trigger: true
   - params:
       additional_tags: image-tf-code-analyzers-python-sources/docker/additional_tags
