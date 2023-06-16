@@ -1,5 +1,7 @@
 FROM python:3-slim
 
+LABEL org.opencontainers.image.source https://github.com/wellingtonking/docker-image-tf-code-analyzers-python
+
 ## Install terrascan ##
 RUN pip install terrascan --no-input --progress-bar off | grep -v "pip as the 'root' user"
 

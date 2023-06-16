@@ -7,13 +7,21 @@ resource_types:
 resources:
 - name: image-tf-code-analyzers-python-image
   source:
-    email: ((auth-harbor-production-rw.email))
-    password: ((auth-harbor-production-rw.password))
-    repository: ((auth-harbor-production-rw.prefix))((auth-harbor-production-rw.project))/tf-code-analyzers-python
+    email: ((auth-github-packages-cdemers-rw.email))
+    password: ((auth-github-packages-cdemers-rw.password))
+    repository: ((auth-github-packages-cdemers-rw.prefix))((auth-github-packages-cdemers-rw.project))/image-tf-code-analyzers-python
     tag: latest
-    username: ((auth-harbor-production-rw.username))
-    insecure_registries: ["harbor.wkng.net"]
+    username: ((auth-github-packages-cdemers-rw.username))
   type: docker-image
+# - name: image-tf-code-analyzers-python-image
+#   source:
+#     email: ((auth-harbor-production-rw.email))
+#     password: ((auth-harbor-production-rw.password))
+#     repository: ((auth-harbor-production-rw.prefix))((auth-harbor-production-rw.project))/tf-code-analyzers-python
+#     tag: latest
+#     username: ((auth-harbor-production-rw.username))
+#     insecure_registries: ["harbor.wkng.net"]
+#   type: docker-image
 - name: image-tf-code-analyzers-python-sources
   source:
     branch: main
@@ -104,8 +112,8 @@ jobs:
 
   - task: trivy-scan-image
     params:
-      TRIVY_USERNAME: '((auth-harbor-production-rw.username))'
-      TRIVY_PASSWORD: '((auth-harbor-production-rw.password))'
+      TRIVY_USERNAME: '((auth-github-packages-cdemers-rw.username))'
+      TRIVY_PASSWORD: '((auth-github-packages-cdemers-rw.password))'
     config:
       image_resource:
         name: ""
@@ -120,11 +128,11 @@ jobs:
         - |
           set -euxo pipefail
           BASEPATH=$(pwd)
-          export TRIVY_INSECURE="true"
-          export TRIVY_NON_SSL="false"
-          echo "Scanning: ((auth-harbor-production-rw.prefix))((auth-harbor-production-rw.project))/tf-code-analyzers-python:latest"
+          # export TRIVY_INSECURE="true"
+          # export TRIVY_NON_SSL="false"
+          echo "Scanning: ((auth-github-packages-cdemers-rw.prefix))((auth-github-packages-cdemers-rw.project))/tf-code-analyzers-python:latest"
           # Tag "latest" is temporary wip
-          trivy image ((auth-harbor-production-rw.prefix))((auth-harbor-production-rw.project))/tf-code-analyzers-python:latest
+          trivy image ((auth-github-packages-cdemers-rw.prefix))((auth-github-packages-cdemers-rw.project))/tf-code-analyzers-python:latest
         path: /bin/bash
     
   # - task: dockle-scan-image
