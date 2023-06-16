@@ -25,10 +25,10 @@ resources:
     repository: registry.hub.docker.com/library/python
     tag: "3-slim"
   type: docker-image
-- name: alpine-3.17-image
+- name: alpine-3.18-image
   source:
     repository: registry.hub.docker.com/library/alpine
-    tag: "3.17"
+    tag: "3.18"
   type: docker-image
 - name: slack-notify
   source:
@@ -65,7 +65,7 @@ jobs:
   plan:
   - get: image-tf-code-analyzers-python-sources
     trigger: true
-  - get: alpine-3.17-image
+  - get: alpine-3.18-image
     trigger: true
   - get: python-3-slim-image
     trigger: true
