@@ -7,11 +7,11 @@ resource_types:
 resources:
 - name: image-tf-code-analyzers-python-image
   source:
-    email: ((auth-github-packages-cdemers-rw.email))
-    password: ((auth-github-packages-cdemers-rw.password))
-    repository: ((auth-github-packages-cdemers-rw.prefix))((auth-github-packages-cdemers-rw.project))/image-tf-code-analyzers-python
+    email: ((auth-github-packages-wellingtonking-rw.email))
+    password: ((auth-github-packages-wellingtonking-rw.password))
+    repository: ((auth-github-packages-wellingtonking-rw.prefix))((auth-github-packages-wellingtonking-rw.project))/image-tf-code-analyzers-python
     tag: latest
-    username: ((auth-github-packages-cdemers-rw.username))
+    username: ((auth-github-packages-wellingtonking-rw.username))
   type: docker-image
 # - name: image-tf-code-analyzers-python-image
 #   source:
@@ -112,8 +112,8 @@ jobs:
 
   - task: trivy-scan-image
     params:
-      TRIVY_USERNAME: '((auth-github-packages-cdemers-rw.username))'
-      TRIVY_PASSWORD: '((auth-github-packages-cdemers-rw.password))'
+      TRIVY_USERNAME: '((auth-github-packages-wellingtonking-rw.username))'
+      TRIVY_PASSWORD: '((auth-github-packages-wellingtonking-rw.password))'
     config:
       image_resource:
         name: ""
@@ -130,9 +130,9 @@ jobs:
           BASEPATH=$(pwd)
           # export TRIVY_INSECURE="true"
           # export TRIVY_NON_SSL="false"
-          echo "Scanning: ((auth-github-packages-cdemers-rw.prefix))((auth-github-packages-cdemers-rw.project))/tf-code-analyzers-python:latest"
+          echo "Scanning: ((auth-github-packages-wellingtonking-rw.prefix))((auth-github-packages-wellingtonking-rw.project))/tf-code-analyzers-python:latest"
           # Tag "latest" is temporary wip
-          trivy image ((auth-github-packages-cdemers-rw.prefix))((auth-github-packages-cdemers-rw.project))/tf-code-analyzers-python:latest
+          trivy image ((auth-github-packages-wellingtonking-rw.prefix))((auth-github-packages-wellingtonking-rw.project))/tf-code-analyzers-python:latest
         path: /bin/bash
     
   # - task: dockle-scan-image
