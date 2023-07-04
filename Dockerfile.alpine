@@ -1,4 +1,4 @@
-FROM alpine:3.17
+FROM alpine:3
 
 # This Dockerfile produces an image of abouty 1.11GB, even if we are starting
 # with an alpine:3 image.  This is way larger than the 449MB we get if we start
@@ -21,8 +21,5 @@ RUN pip3 install terraform-compliance --no-input --progress-bar off | grep -v "p
 
 ## Cleanup to reduce image size ##
 RUN rm -vrf /var/cache/apk/* && pip cache purge
-
-## Remove because of a vulnerability
-RUN rm -f /usr/bin/ipython
 
 CMD ["/bin/bash"]
