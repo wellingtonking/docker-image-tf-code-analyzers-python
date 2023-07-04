@@ -130,9 +130,9 @@ jobs:
           BASEPATH=$(pwd)
           # export TRIVY_INSECURE="true"
           # export TRIVY_NON_SSL="false"
-          echo "Scanning: ((auth-github-packages-wellingtonking-rw.prefix))((auth-github-packages-wellingtonking-rw.project))/tf-code-analyzers-python:latest"
+          echo "Scanning: ((auth-github-packages-wellingtonking-rw.prefix))((auth-github-packages-wellingtonking-rw.project))/image-tf-code-analyzers-python:latest"
           # Tag "latest" is temporary wip
-          trivy image ((auth-github-packages-wellingtonking-rw.prefix))((auth-github-packages-wellingtonking-rw.project))/tf-code-analyzers-python:latest
+          trivy image ((auth-github-packages-wellingtonking-rw.prefix))((auth-github-packages-wellingtonking-rw.project))/image-tf-code-analyzers-python:latest
         path: /bin/bash
     
   # - task: dockle-scan-image
