@@ -22,4 +22,7 @@ RUN pip3 install terraform-compliance --no-input --progress-bar off | grep -v "p
 ## Cleanup to reduce image size ##
 RUN rm -vrf /var/cache/apk/* && pip cache purge
 
+## Remove because of a vulnerability
+RUN rm -f /usr/bin/ipython
+
 CMD ["/bin/bash"]
