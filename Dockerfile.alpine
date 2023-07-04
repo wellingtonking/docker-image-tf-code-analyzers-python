@@ -20,6 +20,6 @@ RUN pip3 install terraform-compliance --no-input --progress-bar off | grep -v "p
 RUN pip3 install checkov --no-input --progress-bar off | grep -v "pip as the 'root' user"
 
 ## Cleanup to reduce image size ##
-RUN rm -vrf /var/cache/apk/* && pip cache purge && apk del py3-pip
+RUN rm -vrf /var/cache/apk/* && pip cache purge && apk del ipython ipython-doc py3-ipython_genutils
 
 CMD ["/bin/bash"]
