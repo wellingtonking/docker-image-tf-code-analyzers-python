@@ -17,9 +17,9 @@ RUN pip3 install terrascan --no-input --progress-bar off | grep -v "pip as the '
 RUN pip3 install terraform-compliance --no-input --progress-bar off | grep -v "pip as the 'root' user"
 
 ## Install checkov ##
-RUN pip3 install checkov --no-input --progress-bar off | grep -v "pip as the 'root' user"
+#RUN pip3 install checkov --no-input --progress-bar off 2>&1 | grep -v "pip as the 'root' user"
 
 ## Cleanup to reduce image size ##
-RUN rm -vrf /var/cache/apk/* && pip cache purge && apk del ipython ipython-doc py3-ipython_genutils
+RUN rm -vrf /var/cache/apk/* && pip cache purge
 
 CMD ["/bin/bash"]
