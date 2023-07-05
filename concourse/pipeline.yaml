@@ -86,6 +86,9 @@ jobs:
   public: true
   serial: true
 
+# Orange: "#ff8400"
+# Yellow: "#ffd300"
+
 - name: container-image-scan
   on_abort:
     params:
@@ -94,15 +97,15 @@ jobs:
   on_error:
     params:
       alert_type: errored
-      text: Errored the security scan the image _tf-code-analyzers-python_.
+      text: Errored the Trivy security scan the image _image-tf-code-analyzers-python_.
     put: slack-notify
   on_failure:
     do:
     - params:
-        message: Warning
-        color: "#ff8400"
+        message: Information
+        color: "#ffd300" 
         alert_type: failed
-        text: Failed the security scan of the image _tf-code-analyzers-python_.
+        text: Failed the Trivy security scan of the image _image-tf-code-analyzers-python_.
       put: slack-notify
 
   plan:
