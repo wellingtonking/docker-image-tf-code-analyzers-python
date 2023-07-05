@@ -99,6 +99,8 @@ jobs:
   on_failure:
     do:
     - params:
+        message: Warning
+        color: "#ff8400"
         alert_type: failed
         text: Failed the security scan of the image _tf-code-analyzers-python_.
       put: slack-notify
